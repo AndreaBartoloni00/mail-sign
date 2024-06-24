@@ -1,33 +1,266 @@
 <script setup lang="">
-
 import { ref } from 'vue';
-    import { h } from 'vue'
-    import { useForm } from 'vee-validate'
-    import { toTypedSchema } from '@vee-validate/zod'
-    import * as z from 'zod'
-import { Button } from '@/components/button'
-    import {
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-    } from '@/components/form'
-    import { Input } from '@/components/input';
+import { Button } from '/src/components/button';
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '/src/components/form';
+import { Input } from '/src/components/input';
+
+// Definire i dati del form come reactive
+const data = ref({
+  name: '',
+  surname: '',
+  rule: '',
+  phone: '',
+  email: ''
+});
+
+
+// Metodo per gestire il submit del form
+const GenerateHtml = () => {
+  
+  const { name, surname, rule, phone, email} = data.value;
+  console.log("Dati del form:", data.value);
+  const templateHtml = `
+  <table cellspacing="0" cellpadding="0" style="vertical-align:-webkit-baseline-middle;font-size:medium;font-family:Arial">
+    <tbody>
+      <tr>
+        <td>
+          <table cellspacing="0" cellpadding="0" style="vertical-align:-webkit-baseline-middle;font-family:Arial">
+            <tbody>
+              <tr>
+                <td width="150" style="vertical-align:middle">
+                  <span style="margin-right:20px;display:block">
+                    <img src="https://6787801.fs1.hubspotusercontent-na1.net/hubfs/6787801/File%20Degg%20People/Marco.jpeg" width="130" style="max-width:130px">
+                  </span>
+                </td>
+                <td style="vertical-align:middle">
+                  <h3 style="margin:0px;font-size:18px;color:rgb(0,0,0)">${name}</h3>
+                  <p style="margin:0px;color:rgb(0,0,0);font-size:14px;line-height:22px">Account Manager</p>
+                  <p style="margin:0px;color:rgb(0,0,0);font-size:14px;line-height:22px">degg srl</p>
+                </td>
+                <td width="30">
+                  <div style="width:30px">&nbsp;</div>
+                </td>
+                <td width="1" style="width:1px;border-bottom:none;border-left:1px solid rgb(253,205,0)">&nbsp;</td>
+                <td width="30">
+                  <div style="width:30px">&nbsp;</div>
+                </td>
+                <td style="vertical-align:middle">
+                  <table cellspacing="0" cellpadding="0" style="vertical-align:-webkit-baseline-middle;font-family:Arial">
+                    <tbody>
+                      <tr style="vertical-align:middle">
+                        <td width="30" style="vertical-align:middle">
+                          <table cellspacing="0" cellpadding="0" style="vertical-align:-webkit-baseline-middle;font-family:Arial">
+                            <tbody>
+                              <tr>
+                                <td style="vertical-align:bottom">
+                                  <span style="display:block">
+                                    <img src="https://6787801.fs1.hubspotusercontent-na1.net/hubfs/6787801/phone-call.png" width="13" style="display:block">
+                                  </span>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                        <td style="padding:0px;color:rgb(0,0,0)">
+                          <a href="tel:+39+0681157585" style="color:rgb(0,0,0);font-size:12px" target="_blank">+39 0681157585</a>&nbsp;|&nbsp;<a href="tel:+39+3456947804" style="color:rgb(0,0,0);font-size:12px" target="_blank">+39 345 6947804</a>
+                        </td>
+                      </tr>
+                      <tr style="vertical-align:middle">
+                        <td width="30" style="vertical-align:middle">
+                          <table cellspacing="0" cellpadding="0" style="vertical-align:-webkit-baseline-middle;font-family:Arial">
+                            <tbody>
+                              <tr>
+                                <td style="vertical-align:bottom">
+                                  <span style="display:block">
+                                    <img src="https://6787801.fs1.hubspotusercontent-na1.net/hubfs/6787801/email.png" width="13" style="display:block">
+                                  </span>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                        <td style="padding:0px">
+                          <a href="mailto:marco.alessandrini@degg.it" style="color:rgb(0,0,0);font-size:12px" target="_blank">marco.alessandrini@degg.it</a>
+                        </td>
+                      </tr>
+                      <tr style="vertical-align:middle">
+                        <td width="30" style="vertical-align:middle">
+                          <table cellspacing="0" cellpadding="0" style="vertical-align:-webkit-baseline-middle;font-family:Arial">
+                            <tbody>
+                              <tr>
+                                <td style="vertical-align:bottom">
+                                  <span style="display:block">
+                                    <img src="https://6787801.fs1.hubspotusercontent-na1.net/hubfs/6787801/link.png" width="13" style="display:block">
+                                  </span>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                        <td style="padding:0px">
+                          <a href="https://www.degg.it/" style="color:rgb(0,0,0);font-size:12px" target="_blank">www.degg.it</a>
+                        </td>
+                      </tr>
+                      <tr style="vertical-align:middle">
+                        <td width="30" style="vertical-align:middle">
+                          <table cellspacing="0" cellpadding="0" style="vertical-align:-webkit-baseline-middle;font-family:Arial">
+                            <tbody>
+                              <tr>
+                                <td style="vertical-align:bottom">
+                                  <span style="display:block">
+                                    <img src="https://6787801.fs1.hubspotusercontent-na1.net/hubfs/6787801/location-sign.png" width="13" style="display:block">
+                                  </span>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                        <td style="padding:0px">
+                          <span style="font-size:12px;color:rgb(0,0,0)">Viale F. Caltagirone 265, 00132, Roma</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <table cellspacing="0" cellpadding="0" style="vertical-align:-webkit-baseline-middle;font-family:Arial;width:574.328px">
+            <tbody>
+              <tr>
+                <td height="30">&nbsp;</td>
+              </tr>
+              <tr>
+                <td height="1" style="width:574.328px;border-bottom:1px solid rgb(253,205,0);border-left:none;display:block">&nbsp;</td>
+              </tr>
+              <tr>
+                <td height="30">&nbsp;</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <table cellspacing="0" cellpadding="0" style="vertical-align:-webkit-baseline-middle;font-family:Arial;width:574.328px">
+            <tbody>
+              <tr>
+                <td style="vertical-align:top">
+                  <img src="https://degg.it/wp-content/uploads/2021/12/cropped-Logo-degg-2022-svg.png" width="130" style="max-width:130px;display:inline-block">
+                </td>
+                <td style="text-align:right;vertical-align:top">
+                  <table cellspacing="0" cellpadding="0" style="vertical-align:-webkit-baseline-middle;font-family:Arial;display:inline-block">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <a href="https://www.facebook.com/degg.digitalevolution" style="display:inline-block;padding:0px" target="_blank">
+                            <img src="https://6787801.fs1.hubspotusercontent-na1.net/hubfs/6787801/facebook%20(1).png" alt="facebook" height="24" style="max-width:135px;display:block">
+                          </a>
+                        </td>
+                        <td width="5">
+                          <div>&nbsp;</div>
+                        </td>
+                        <td>
+                          <a href="https://www.linkedin.com/company/degg" style="display:inline-block;padding:0px" target="_blank">
+                            <img src="https://6787801.fs1.hubspotusercontent-na1.net/hubfs/6787801/linkedin%20(1).png" alt="linkedin" height="24" style="max-width:135px;display:block">
+                          </a>
+                        </td>
+                        <td width="5">
+                          <div>&nbsp;</div>
+                        </td>
+                        <td>
+                          <a href="https://www.instagram.com/degg_digitalevolution_/" style="display:inline-block;padding:0px" target="_blank">
+                            <img src="https://6787801.fs1.hubspotusercontent-na1.net/hubfs/6787801/instagram%20(1).png" alt="instagram" height="24" style="max-width:135px;display:block">
+                          </a>
+                        </td>
+                        <td width="5">
+                          <div>&nbsp;</div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <table cellspacing="0" cellpadding="0" style="vertical-align:-webkit-baseline-middle;font-family:Arial;width:574.328px">
+            <tbody>
+              <tr>
+                <td height="15">&nbsp;</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>`
+  data.templateHtml = templateHtml;
+};
+
+// Esportare la funzione per renderla disponibile nel template
+defineExpose({
+  GenerateHtml
+});
 </script>
 
 <template>
-  <form @submit="onSubmit">
-    <FormField v-slot="{ componentField }" name="username">
+  <form @submit.prevent="GenerateHtml">
+    <FormField v-slot="{ componentField }" name="name">
       <FormItem>
-        <FormLabel>Username</FormLabel>
         <FormControl>
-          <Input type="text" placeholder="shadcn" v-bind="componentField" />
+          <Input type="text" name="name" placeholder="name" v-model="data.name" v-bind="componentField" />
         </FormControl>
-        <FormDescription>
-          This is your public display name.
-        </FormDescription>
+        <FormMessage />
+      </FormItem>
+    </FormField>
+
+    <FormField v-slot="{ componentField }" name="surname">
+      <FormItem>
+        <FormControl>
+          <Input type="text" name="surname" placeholder="surname" v-model="data.surname" v-bind="componentField" />
+        </FormControl>
+        <FormMessage />
+      </FormItem>
+    </FormField>
+    
+    <FormField v-slot="{ componentField }" name="rule">
+      <FormItem>
+        <FormControl>
+          <Input type="text" name="rule" placeholder="rule" v-model="data.rule" v-bind="componentField" />
+        </FormControl>
+        <FormMessage />
+      </FormItem>
+    </FormField>
+
+    <FormField v-slot="{ componentField }" name="phone">
+      <FormItem>
+        <FormControl>
+          <Input type="text" name="phone" placeholder="phone" v-model="data.phone" v-bind="componentField" />
+        </FormControl>
+        <FormMessage />
+      </FormItem>
+    </FormField>
+
+    <FormField v-slot="{ componentField }" name="email">
+      <FormItem>
+        <FormControl>
+          <Input type="email" name="email" placeholder="email" v-model="data.email" v-bind="componentField" />
+        </FormControl>
         <FormMessage />
       </FormItem>
     </FormField>
@@ -35,5 +268,9 @@ import { Button } from '@/components/button'
       Submit
     </Button>
   </form>
+
+  <div v-html="templateHtml"></div>
 </template>
+
+
 
