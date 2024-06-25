@@ -1,9 +1,9 @@
 <script setup>
-import HelloWorld from '/src/components/HelloWorld.vue';
+import mailForm from '/src/components/mailForm.vue';
 </script>
 
 <template>
-  <HelloWorld/>
+  <mailForm/>
 </template>
 
 <style scoped>

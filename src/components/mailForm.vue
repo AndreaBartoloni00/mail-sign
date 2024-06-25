@@ -17,16 +17,17 @@ const data = ref({
   surname: '',
   rule: '',
   phone: '',
-  email: ''
+  email: '',
+  templateHtml: '',
 });
-
+const formSubmitted = ref(false);
 
 // Metodo per gestire il submit del form
 const GenerateHtml = () => {
   
   const { name, surname, rule, phone, email} = data.value;
   console.log("Dati del form:", data.value);
-  const templateHtml = `
+  data.value.templateHtml = `
   <table cellspacing="0" cellpadding="0" style="vertical-align:-webkit-baseline-middle;font-size:medium;font-family:Arial">
     <tbody>
       <tr>
@@ -40,8 +41,8 @@ const GenerateHtml = () => {
                   </span>
                 </td>
                 <td style="vertical-align:middle">
-                  <h3 style="margin:0px;font-size:18px;color:rgb(0,0,0)">${name}</h3>
-                  <p style="margin:0px;color:rgb(0,0,0);font-size:14px;line-height:22px">Account Manager</p>
+                  <h3 style="margin:0px;font-size:18px;color:rgb(0,0,0)">${name} ${surname}</h3>
+                  <p style="margin:0px;color:rgb(0,0,0);font-size:14px;line-height:22px">${rule}</p>
                   <p style="margin:0px;color:rgb(0,0,0);font-size:14px;line-height:22px">degg srl</p>
                 </td>
                 <td width="30">
@@ -69,7 +70,7 @@ const GenerateHtml = () => {
                           </table>
                         </td>
                         <td style="padding:0px;color:rgb(0,0,0)">
-                          <a href="tel:+39+0681157585" style="color:rgb(0,0,0);font-size:12px" target="_blank">+39 0681157585</a>&nbsp;|&nbsp;<a href="tel:+39+3456947804" style="color:rgb(0,0,0);font-size:12px" target="_blank">+39 345 6947804</a>
+                          <a href="tel:+39+0681157585" style="color:rgb(0,0,0);font-size:12px" target="_blank">+39 0681157585</a>&nbsp;|&nbsp;<a href="tel:+39+3456947804" style="color:rgb(0,0,0);font-size:12px" target="_blank">+39 ${phone}</a>
                         </td>
                       </tr>
                       <tr style="vertical-align:middle">
@@ -87,7 +88,7 @@ const GenerateHtml = () => {
                           </table>
                         </td>
                         <td style="padding:0px">
-                          <a href="mailto:marco.alessandrini@degg.it" style="color:rgb(0,0,0);font-size:12px" target="_blank">marco.alessandrini@degg.it</a>
+                          <a href="mailto:${email}" style="color:rgb(0,0,0);font-size:12px" target="_blank">${email}</a>
                         </td>
                       </tr>
                       <tr style="vertical-align:middle">
@@ -165,7 +166,7 @@ const GenerateHtml = () => {
                       <tr>
                         <td>
                           <a href="https://www.facebook.com/degg.digitalevolution" style="display:inline-block;padding:0px" target="_blank">
-                            <img src="https://6787801.fs1.hubspotusercontent-na1.net/hubfs/6787801/facebook%20(1).png" alt="facebook" height="24" style="max-width:135px;display:block">
+                            <img src="https://6787801.fs1.hubspotusercontent-na1.net/hubfs/6787801/facebook%20(1).png" alt="facebook" height="24" style="max-width:135px;display:block;max-height:24px;display:block">
                           </a>
                         </td>
                         <td width="5">
@@ -173,7 +174,7 @@ const GenerateHtml = () => {
                         </td>
                         <td>
                           <a href="https://www.linkedin.com/company/degg" style="display:inline-block;padding:0px" target="_blank">
-                            <img src="https://6787801.fs1.hubspotusercontent-na1.net/hubfs/6787801/linkedin%20(1).png" alt="linkedin" height="24" style="max-width:135px;display:block">
+                            <img src="https://6787801.fs1.hubspotusercontent-na1.net/hubfs/6787801/linkedin%20(1).png" alt="linkedin" height="24" style="max-width:135px;display:block;max-height:24px;display:block">
                           </a>
                         </td>
                         <td width="5">
@@ -181,7 +182,7 @@ const GenerateHtml = () => {
                         </td>
                         <td>
                           <a href="https://www.instagram.com/degg_digitalevolution_/" style="display:inline-block;padding:0px" target="_blank">
-                            <img src="https://6787801.fs1.hubspotusercontent-na1.net/hubfs/6787801/instagram%20(1).png" alt="instagram" height="24" style="max-width:135px;display:block">
+                            <img src="https://6787801.fs1.hubspotusercontent-na1.net/hubfs/6787801/instagram%20(1).png" alt="instagram" style="max-width:135px;display:block;max-height:24px;display:block">
                           </a>
                         </td>
                         <td width="5">
@@ -209,7 +210,7 @@ const GenerateHtml = () => {
       </tr>
     </tbody>
   </table>`
-  data.templateHtml = templateHtml;
+  formSubmitted.value = true;
 };
 
 // Esportare la funzione per renderla disponibile nel template
@@ -219,57 +220,66 @@ defineExpose({
 </script>
 
 <template>
-  <form @submit.prevent="GenerateHtml">
-    <FormField v-slot="{ componentField }" name="name">
-      <FormItem>
-        <FormControl>
-          <Input type="text" name="name" placeholder="name" v-model="data.name" v-bind="componentField" />
-        </FormControl>
-        <FormMessage />
-      </FormItem>
-    </FormField>
+  <div class="h-[100vh] flex items-center ">
+    <div class="w-2/5 mx-auto ">
+      <form v-if="!formSubmitted" @submit.prevent="GenerateHtml" class="w-full">
+        <FormField v-slot="{ componentField }" name="name">
+          <FormItem>
+            <FormControl>
+              <Input type="text" name="name" placeholder="name" v-model="data.name" v-bind="componentField" class="border-none mb-2 shadow-[0_0px_5px_0px_rgba(0,0,0,0.2)] rounded-[10px]"/>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
 
-    <FormField v-slot="{ componentField }" name="surname">
-      <FormItem>
-        <FormControl>
-          <Input type="text" name="surname" placeholder="surname" v-model="data.surname" v-bind="componentField" />
-        </FormControl>
-        <FormMessage />
-      </FormItem>
-    </FormField>
+        <FormField v-slot="{ componentField }" name="surname">
+          <FormItem>
+            <FormControl>
+              <Input type="text" name="surname" placeholder="surname" v-model="data.surname" v-bind="componentField" class="border-none mb-2 shadow-[0_0px_5px_0px_rgba(0,0,0,0.2)] rounded-[10px]"/>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+        
+        <FormField v-slot="{ componentField }" name="rule">
+          <FormItem>
+            <FormControl>
+              <Input type="text" name="rule" placeholder="rule" v-model="data.rule" v-bind="componentField" class="border-none mb-2 shadow-[0_0px_5px_0px_rgba(0,0,0,0.2)] rounded-[10px]"/>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+
+        <FormField v-slot="{ componentField }" name="phone">
+          <FormItem>
+            <FormControl>
+              <Input type="text" name="phone" placeholder="phone" v-model="data.phone" v-bind="componentField" class="border-none mb-2 shadow-[0_0px_5px_0px_rgba(0,0,0,0.2)] rounded-[10px]"/>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+
+        <FormField v-slot="{ componentField }" name="email">
+          <FormItem>
+            <FormControl>
+              <Input type="email" name="email" placeholder="email" v-model="data.email" v-bind="componentField" class="border-none mb-2 shadow-[0_0px_5px_0px_rgba(0,0,0,0.2)] rounded-[10px]"/>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+        <Button type="submit" class="bg-black rounded-[10px] text-white mt-2 hover:bg-black">
+          Submit
+        </Button>
+      </form>
+      <div v-if="formSubmitted" v-html="data.templateHtml" class="mt-10"></div>
+    </div>
     
-    <FormField v-slot="{ componentField }" name="rule">
-      <FormItem>
-        <FormControl>
-          <Input type="text" name="rule" placeholder="rule" v-model="data.rule" v-bind="componentField" />
-        </FormControl>
-        <FormMessage />
-      </FormItem>
-    </FormField>
+  </div>
 
-    <FormField v-slot="{ componentField }" name="phone">
-      <FormItem>
-        <FormControl>
-          <Input type="text" name="phone" placeholder="phone" v-model="data.phone" v-bind="componentField" />
-        </FormControl>
-        <FormMessage />
-      </FormItem>
-    </FormField>
 
-    <FormField v-slot="{ componentField }" name="email">
-      <FormItem>
-        <FormControl>
-          <Input type="email" name="email" placeholder="email" v-model="data.email" v-bind="componentField" />
-        </FormControl>
-        <FormMessage />
-      </FormItem>
-    </FormField>
-    <Button type="submit">
-      Submit
-    </Button>
-  </form>
 
-  <div v-html="templateHtml"></div>
+  <!-- <div id="template"></div> -->
+  
 </template>
 
 
